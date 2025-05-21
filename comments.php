@@ -2,64 +2,53 @@
 /**
  * The template for displaying comments
  *
- * The area of the page that contains both current comments
+ * This is the template that displays the area of the page that contains both the current comments
  * and the comment form.
  *
- * @package Understrap
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ *
+ * @package Reclaim_Open_Retro_v_Justin
  */
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
-
 /*
- * If the current post is protected by a password and the visitor has not yet
- * entered the password we will return early without loading the comments.
+ * If the current post is protected by a password and
+ * the visitor has not yet entered the password we will
+ * return early without loading the comments.
  */
 if ( post_password_required() ) {
 	return;
 }
 ?>
 
-<div class="comments-area" id="comments">
+<div id="comments" class="comments-area">
 
-	<?php // You can start editing here -- including this comment! ?>
-
-	<?php if ( have_comments() ) : ?>
-
+	<?php
+	// You can start editing here -- including this comment!
+	if ( have_comments() ) :
+		?>
 		<h2 class="comments-title">
-
 			<?php
-			$comments_number = get_comments_number();
-			if ( 1 === (int) $comments_number ) {
+			$reclaim_open_retro_v_justin_comment_count = get_comments_number();
+			if ( '1' === $reclaim_open_retro_v_justin_comment_count ) {
 				printf(
-					/* translators: %s: post title */
-					esc_html_x( 'One thought on &ldquo;%s&rdquo;', 'comments title', 'understrap' ),
-					'<span>' . get_the_title() . '</span>'
+					/* translators: 1: title. */
+					esc_html__( 'One thought on &ldquo;%1$s&rdquo;', 'reclaim-open-retro-v-justin' ),
+					'<span>' . wp_kses_post( get_the_title() ) . '</span>'
 				);
 			} else {
-				printf(
-					esc_html(
-						/* translators: 1: number of comments, 2: post title */
-						_nx(
-							'%1$s thought on &ldquo;%2$s&rdquo;',
-							'%1$s thoughts on &ldquo;%2$s&rdquo;',
-							$comments_number,
-							'comments title',
-							'understrap'
-						)
-					),
-					number_format_i18n( $comments_number ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					'<span>' . get_the_title() . '</span>'
+				printf( 
+					/* translators: 1: comment count number, 2: title. */
+					esc_html( _nx( '%1$s thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', $reclaim_open_retro_v_justin_comment_count, 'comments title', 'reclaim-open-retro-v-justin' ) ),
+					number_format_i18n( $reclaim_open_retro_v_justin_comment_count ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'<span>' . wp_kses_post( get_the_title() ) . '</span>'
 				);
 			}
 			?>
-
 		</h2><!-- .comments-title -->
 
-		<?php understrap_comment_navigation( 'comment-nav-above' ); ?>
+		<?php the_comments_navigation(); ?>
 
 		<ol class="comment-list">
-
 			<?php
 			wp_list_comments(
 				array(
@@ -68,13 +57,21 @@ if ( post_password_required() ) {
 				)
 			);
 			?>
-
 		</ol><!-- .comment-list -->
 
-		<?php understrap_comment_navigation( 'comment-nav-below' ); ?>
+		<?php
+		the_comments_navigation();
 
-	<?php endif; // End of if have_comments(). ?>
+		// If comments are closed and there are comments, let's leave a little note, shall we?
+		if ( ! comments_open() ) :
+			?>
+			<p class="no-comments"><?php esc_html_e( 'Comments are closed.', 'reclaim-open-retro-v-justin' ); ?></p>
+			<?php
+		endif;
 
-	<?php comment_form(); // Render comments form. ?>
+	endif; // Check for have_comments().
+
+	comment_form();
+	?>
 
 </div><!-- #comments -->

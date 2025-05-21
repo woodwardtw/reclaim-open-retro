@@ -2,19 +2,16 @@
 /**
  * The sidebar containing the main widget area
  *
- * @package Understrap
+ * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ *
+ * @package Reclaim_Open_Retro_v_Justin
  */
-
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
 
 if ( ! is_active_sidebar( 'sidebar-1' ) ) {
 	return;
 }
 ?>
 
-<div class="col-md-4 widget-area" id="secondary">
-
+<aside id="secondary" class="widget-area">
 	<?php dynamic_sidebar( 'sidebar-1' ); ?>
-
-</div><!-- #secondary -->
+</aside><!-- #secondary -->
