@@ -182,3 +182,15 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+function enqueue_gif_picker_js() {
+    if (is_page('submit-a-proposal')) {
+        wp_enqueue_script(
+            'gif-picker',
+            get_template_directory_uri() . '/js/gif-picker.js',
+            array('jquery'), // dependencies
+            '1.0.0',
+            true // load in footer
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'enqueue_gif_picker_js');
