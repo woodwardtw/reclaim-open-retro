@@ -269,6 +269,10 @@ button:-moz-focusring,
 	outline: 1px dotted ButtonText;
 }
 
+
+button:hover {
+	cursor: pointer;
+}
 /**
  * Correct the padding in Firefox.
  */
