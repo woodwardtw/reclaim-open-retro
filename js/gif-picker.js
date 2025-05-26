@@ -46,7 +46,7 @@ function makeGif(data){
 
 function imageClicker(){
 	const allImages = document.querySelectorAll(".gif");
-	const destination = document.querySelector("#input_2_10")
+	const destination = document.querySelector("#input_1_10")
 	allImages.forEach(function(gif){
 		gif.addEventListener('click', () => {		  
 		    console.log(gif.src)
