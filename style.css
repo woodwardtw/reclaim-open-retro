@@ -1015,6 +1015,10 @@ article.post {
 	border: 2px solid lime;
 }
 
+.gif.selected {
+	border: 2px solid lime;
+}
+
 /* tablet breakpoint */
 @media (min-width:768px) {
     .site-header {
