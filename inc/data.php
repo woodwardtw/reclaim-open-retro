@@ -76,3 +76,4 @@ function create_session_cpt() {
   $wp_rewrite->flush_rules();
 }
 add_action( 'init', 'create_session_cpt', 0 );
+

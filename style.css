@@ -1005,6 +1005,15 @@ article.post {
 	padding-left: 0;
 }
 
+.gif {
+	transition: all .5s ease;
+	border: 2px solid #fff;
+}
+
+.gif:hover {
+	cursor: pointer;
+	border: 2px solid lime;
+}
 
 /* tablet breakpoint */
 @media (min-width:768px) {

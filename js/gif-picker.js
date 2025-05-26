@@ -1,21 +1,30 @@
 console.log('gif picker')
 
 const gifBtn = document.querySelector('#gif-picker');
-
+const dialog = document.querySelector("dialog");
 gifBtn.addEventListener('click', (event) => {
     // Your click handling code here
     event.preventDefault(); // Prevents form submission
     event.stopPropagation(); // Stops event bubbling
     console.log('Element clicked');
+    dialog.showModal();
 });
 
+const confirm = document.querySelector('#confirm');
+confirm.addEventListener("click", () => {
+	event.preventDefault(); // Prevents form submission
+	event.stopPropagation(); // Stops event bubbling
+	dialog.close();
+ });
 
-fetch('https://multisitetwo.local/extras/reclaim-gif/json.php')
+
+
+fetch('../wp-json/wp/v2/media?mime_type=image/gif&per_page=100')
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
+            //console.log(data);
             makeGif(data)
             imageClicker()
         })
@@ -28,7 +37,7 @@ function makeGif(data){
 	const destination = document.querySelector("#gif-library");
 	data.forEach(function(gif){
 		const img = document.createElement("img");
-		img.src = 'https://multisitetwo.local/extras/reclaim-gif/imgs/'+ gif.url;
+		img.src = gif.guid.rendered;
 		img.classList.add('gif')
 		destination.appendChild(img);		
 	})
@@ -53,3 +62,5 @@ function cleanSelected(allImages){
 		img.classList.remove('selected')
 	})
 }
+
+
