@@ -722,6 +722,12 @@ textarea {
 
 	.main-navigation ul {
 		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+	}
+
+	.main-navigation ul li{
+		width: 100%;
 	}
 }
 
@@ -982,7 +988,8 @@ textarea {
 article.post {
 	margin: 50px auto;
 	display: block;
-	border-bottom: 1px solid red;
+	border-bottom: 1px solid #424242;
+	padding-bottom: 40px;		
 }
 
 #page {

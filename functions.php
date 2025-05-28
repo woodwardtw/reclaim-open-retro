@@ -194,3 +194,70 @@ function enqueue_gif_picker_js() {
     }
 }
 add_action('wp_enqueue_scripts', 'enqueue_gif_picker_js');
+
+//ALL USERS LOOP
+
+function the_reclaim_users(){
+	 $users = get_users();
+
+        if ( ! empty( $users ) ) {
+            echo '<ul class="user-list">';
+            foreach ( $users as $user ) {
+                echo '<li>';
+                echo get_avatar( $user->ID, 96 ); // User avatar
+                echo '<h2>' . esc_html( $user->display_name ) . '</h2>'; // User display name linking to their author archive
+                //echo '<p>' . esc_html( $user->description ) . '</p>'; // User biography
+                $args = array(
+                	'author' => $user->ID,                	
+                );
+                $posts = get_posts($args);
+                foreach ($posts as $key => $post) {
+                	// code...                	
+                	echo "<div><a href='{$post->guid}'>{$post->post_title}</a></div>";
+                }
+
+                echo '</li>';
+            }
+            echo '</ul>';
+        } else {
+            echo '<p>No users found.</p>';
+        }
+}
+
+
+/*
+**
+** save acf
+**
+*/
+	//save acf json
+		add_filter('acf/settings/save_json', 'reclaim_open_json_save_point');
+		 
+		function reclaim_open_json_save_point( $path ) {
+		    
+		    // update path
+		    $path = get_stylesheet_directory() . '/acf-json'; 
+		    
+		    
+		    // return
+		    return $path;
+		    
+		}
+
+
+		// load acf json
+		add_filter('acf/settings/load_json', 'reclaim_open_json_load_point');
+
+		function reclaim_open_json_load_point( $paths ) {
+		    
+		    // remove original path (optional)
+		    unset($paths[0]);
+		    
+		    
+		    // append path
+		    $paths[] = get_stylesheet_directory()  . '/acf-json';
+		    
+		    // return
+		    return $paths;
+		    
+		}
