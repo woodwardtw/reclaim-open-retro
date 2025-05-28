@@ -6,6 +6,7 @@ gifBtn.addEventListener('click', (event) => {
     // Your click handling code here
     event.preventDefault(); // Prevents form submission
     event.stopPropagation(); // Stops event bubbling
+    cleanOldGif();
     dialog.showModal();
 });
 
@@ -22,7 +23,16 @@ function attachChosenGif(chosenGif){
 	const destination = document.querySelector("#field_1_14");//FLIP _2_14 & _1_14
 	const img = document.createElement("img");
 	img.src = chosenGif.src;
+	img.classList.add("chosen-gif");
 	destination.appendChild(img);		
+}
+
+function cleanOldGif(){
+	if(document.querySelector('.chosen-gif')){
+		const oldGif = document.querySelector('.chosen-gif');
+		oldGif.remove();
+	}
+
 }
 
 fetch('../wp-json/wp/v2/media?mime_type=image/gif&per_page=100')
