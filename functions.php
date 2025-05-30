@@ -273,8 +273,13 @@ function wp_menu_single($data) {
 add_action( 'gform_advancedpostcreation_post_after_creation', 'justin_session_user_creation', 10, 4 );
 
 function justin_session_user_creation($post_id, $feed, $entry, $form ){
-	write_log($entry);
+	//write_log($entry);
 	$email = $entry["3"];
+	$gif_url = $entry["10"];
+	$extra_authors = $entry["12"];
+	$resource = $entry["13"];
+
+	//USER STUFF
 	if (get_user_by('email', $email)){
       $user = get_user_by('email', $email);
       $user_id = $user->ID;      
@@ -390,3 +395,13 @@ function justin_login_redirect( $redirect_to, $request, $user ) {
     }
 }
 add_filter( 'login_redirect', 'justin_login_redirect', 10, 3 );
+
+/*
+****************
+BY DEFAULT ACF HIDES THE CUSTOM FIELDS - I LIKE TO SEE THEM
+****************
+*/
+
+//ACF allow us to see custom fields in editor view
+add_filter( 'acf/settings/remove_wp_meta_box', '__return_false' );
+
