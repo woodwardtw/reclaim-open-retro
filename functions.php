@@ -264,6 +264,44 @@ function wp_menu_single($data) {
     ) );
 } );
 
+
+/*
+*
+*User Registration
+*
+*/ 
+add_action( 'gform_advancedpostcreation_post_after_creation', 'justin_session_user_creation', 10, 4 );
+
+function justin_session_user_creation($post_id, $feed, $entry, $form ){
+	write_log($entry);
+	$email = $entry["3"];
+	if (get_user_by('email', $email)){
+      $user = get_user_by('email', $email);
+      $user_id = $user->ID;      
+  	} else {
+	    $chop = strpos($email,'@', 0);
+	    $username = substr($email, 0, $chop);
+	    $pw = 'Reclaim2025!';
+	    $user_id = wp_create_user($username, $pw, $email);
+    }
+  	if($user_id){ // if the user exists/if creating was successful.
+    	$user = new WP_User( $user_id ); // load the new user
+    	$user->set_role('author'); 
+	}
+
+	//assign user to post as author
+	$arg = array(
+		'ID' => $post_id,
+		'post_author' => $user_id
+	);
+	wp_update_post($arg);
+}
+
+function justin_power_password_reset($user_id){	
+	$new_password = 'Reclaim25!';	
+	wp_set_password( $new_password, $user_id );
+}
+
 /*
 **
 ** save acf
@@ -300,3 +338,55 @@ function reclaim_open_json_load_point( $paths ) {
     return $paths;
     
 }
+
+
+//LOGGER -- like frogger but more useful
+
+if ( ! function_exists('write_log')) {
+   function write_log ( $log )  {
+      if ( is_array( $log ) || is_object( $log ) ) {
+         error_log( print_r( $log, true ) );
+      } else {
+         error_log( $log );
+      }
+   }
+}
+
+
+//Minimal-ize WP
+function posts_for_current_author($query) {
+    global $pagenow;
+ 
+    if( 'edit.php' != $pagenow || !$query->is_admin )
+        return $query;
+ 
+    if( !current_user_can( 'manage_options' ) ) {
+        global $user_ID;
+        $query->set('author', $user_ID );
+    }
+    return $query;
+}
+add_filter('pre_get_posts', 'posts_for_current_author');
+
+
+function justin_remove_admin_bar() {
+	if (!current_user_can('administrator') && !is_admin()) {
+		  show_admin_bar(false);
+		}
+	}
+
+
+//redirect authors
+function justin_login_redirect( $redirect_to, $request, $user ) {
+    //is there a user to check?
+    global $user;
+    if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+
+        if ( in_array( 'author', $user->roles ) ) {
+        	 return home_url().'/sessions/';//OR to the session post?
+        } else {
+        	return admin_url();
+        }
+    }
+}
+add_filter( 'login_redirect', 'justin_login_redirect', 10, 3 );
