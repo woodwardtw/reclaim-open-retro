@@ -20,7 +20,7 @@ confirm.addEventListener("click", () => {
  });
 
 function attachChosenGif(chosenGif){
-	const destination = document.querySelector("#field_1_14");//FLIP _2_14 & _1_14
+	const destination = document.querySelector("#field_2_14");//FLIP _2_14 & _1_14
 	const img = document.createElement("img");
 	img.src = chosenGif.src;
 	img.classList.add("chosen-gif");
@@ -62,7 +62,7 @@ function makeGif(data){
 
 function imageClicker(){
 	const allImages = document.querySelectorAll(".gif");
-	const destination = document.querySelector("#input_1_10"); //change between _2_10 & _1_10 for prod
+	const destination = document.querySelector("#input_2_10"); //change between _2_10 & _1_10 for prod
 	allImages.forEach(function(gif){
 		gif.addEventListener('click', () => {		  
 		    destination.value = gif.src;

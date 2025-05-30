@@ -77,3 +77,80 @@ function create_session_cpt() {
 }
 add_action( 'init', 'create_session_cpt', 0 );
 
+add_action( 'init', 'create_theme_taxonomies', 0 );
+function create_theme_taxonomies()
+{
+  // Add new taxonomy, NOT hierarchical (like tags)
+  $labels = array(
+    'name' => _x( 'Themes', 'taxonomy general name' ),
+    'singular_name' => _x( 'theme', 'taxonomy singular name' ),
+    'search_items' =>  __( 'Search Themes' ),
+    'popular_items' => __( 'Popular Themes' ),
+    'all_items' => __( 'All Themes' ),
+    'parent_item' => null,
+    'parent_item_colon' => null,
+    'edit_item' => __( 'Edit Themes' ),
+    'update_item' => __( 'Update theme' ),
+    'add_new_item' => __( 'Add New theme' ),
+    'new_item_name' => __( 'New theme' ),
+    'add_or_remove_items' => __( 'Add or remove Themes' ),
+    'choose_from_most_used' => __( 'Choose from the most used Themes' ),
+    'menu_name' => __( 'Theme' ),
+  );
+
+//registers taxonomy specific post types - default is just post
+  register_taxonomy('themes', array('session'), array(
+    'hierarchical' => true,
+    'labels' => $labels,
+    'show_ui' => true,
+    'update_count_callback' => '_update_post_term_count',
+    'query_var' => true,
+    'rewrite' => array( 'slug' => 'theme' ),
+    'show_in_rest'          => true,
+    'rest_base'             => 'theme',
+    'rest_controller_class' => 'WP_REST_Terms_Controller',
+    'show_in_nav_menus' => true,    
+  ));
+}
+
+
+add_action( 'init', 'create_type_taxonomies', 0 );
+function create_type_taxonomies()
+{
+  // Add new taxonomy, NOT hierarchical (like tags)
+  $labels = array(
+    'name' => _x( 'Types', 'taxonomy general name' ),
+    'singular_name' => _x( 'type', 'taxonomy singular name' ),
+    'search_items' =>  __( 'Search Types' ),
+    'popular_items' => __( 'Popular Types' ),
+    'all_items' => __( 'All Types' ),
+    'parent_item' => null,
+    'parent_item_colon' => null,
+    'edit_item' => __( 'Edit Types' ),
+    'update_item' => __( 'Update type' ),
+    'add_new_item' => __( 'Add New type' ),
+    'new_item_name' => __( 'New type' ),
+    'add_or_remove_items' => __( 'Add or remove Types' ),
+    'choose_from_most_used' => __( 'Choose from the most used Types' ),
+    'menu_name' => __( 'Type' ),
+  );
+
+//registers taxonomy specific post types - default is just post
+  register_taxonomy('types', array('session'), array(
+    'hierarchical' => true,
+    'labels' => $labels,
+    'show_ui' => true,
+    'update_count_callback' => '_update_post_term_count',
+    'query_var' => true,
+    'rewrite' => array( 'slug' => 'type' ),
+    'show_in_rest'          => true,
+    'rest_base'             => 'type',
+    'rest_controller_class' => 'WP_REST_Terms_Controller',
+    'show_in_nav_menus' => true,    
+  ));
+}
+
+
+
+
+

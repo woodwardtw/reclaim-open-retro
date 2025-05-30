@@ -225,39 +225,78 @@ function the_reclaim_users(){
 }
 
 
+//ACF TO JSON
+function acf_to_rest_api_presentation($response, $post, $request) {
+    if (!function_exists('get_fields')) return $response;
+
+    if (isset($post)) {
+        $acf = get_fields($post->id);
+        $response->data['mbs'] = $acf;
+    }
+    return $response;
+}
+add_filter('rest_prepare_presentation', 'acf_to_rest_api_presentation', 10, 3);
+
+// menu json api via https://stackoverflow.com/a/66157232/3390935
+
+function wp_menu_route() {
+    $menuLocations = get_nav_menu_locations(); // Get nav locations set in theme, usually functions.php)
+    return $menuLocations;
+    }
+
+    add_action( 'rest_api_init', function () {
+        register_rest_route( 'custom', '/menu/', array(
+        'methods' => 'GET',
+        'callback' => 'wp_menu_route',
+    ) );
+} );
+
+function wp_menu_single($data) {
+    $menuID = $data['id']; // Get the menu from the ID
+    $primaryNav = wp_get_nav_menu_items($menuID); // Get the array of wp objects, the nav items for our queried location.
+    return $primaryNav;
+    }
+
+    add_action( 'rest_api_init', function () {
+        register_rest_route( 'custom', '/menu/(?P<id>\d+)', array(
+        'methods' => 'GET',
+        'callback' => 'wp_menu_single',
+    ) );
+} );
+
 /*
 **
 ** save acf
 **
 */
-	//save acf json
-		add_filter('acf/settings/save_json', 'reclaim_open_json_save_point');
-		 
-		function reclaim_open_json_save_point( $path ) {
-		    
-		    // update path
-		    $path = get_stylesheet_directory() . '/acf-json'; 
-		    
-		    
-		    // return
-		    return $path;
-		    
-		}
+//save acf json
+add_filter('acf/settings/save_json', 'reclaim_open_json_save_point');
+ 
+function reclaim_open_json_save_point( $path ) {
+    
+    // update path
+    $path = get_stylesheet_directory() . '/acf-json'; 
+    
+    
+    // return
+    return $path;
+    
+}
 
 
-		// load acf json
-		add_filter('acf/settings/load_json', 'reclaim_open_json_load_point');
+// load acf json
+add_filter('acf/settings/load_json', 'reclaim_open_json_load_point');
 
-		function reclaim_open_json_load_point( $paths ) {
-		    
-		    // remove original path (optional)
-		    unset($paths[0]);
-		    
-		    
-		    // append path
-		    $paths[] = get_stylesheet_directory()  . '/acf-json';
-		    
-		    // return
-		    return $paths;
-		    
-		}
+function reclaim_open_json_load_point( $paths ) {
+    
+    // remove original path (optional)
+    unset($paths[0]);
+    
+    
+    // append path
+    $paths[] = get_stylesheet_directory()  . '/acf-json';
+    
+    // return
+    return $paths;
+    
+}
