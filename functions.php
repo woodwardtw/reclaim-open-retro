@@ -278,6 +278,7 @@ function justin_session_user_creation($post_id, $feed, $entry, $form ){
 	$gif_url = $entry["10"];
 	$extra_authors = $entry["12"];
 	$resource = $entry["13"];
+	$gif_id = $entry["16"];
 
 	//USER STUFF
 	if (get_user_by('email', $email)){
@@ -300,6 +301,11 @@ function justin_session_user_creation($post_id, $feed, $entry, $form ){
 		'post_author' => $user_id
 	);
 	wp_update_post($arg);
+	set_post_thumbnail( $post_id, $gif_id);//set featured image
+	wp_update_post(array(
+	    'ID'           => $gif_id,
+	    'post_excerpt' => 'Used',
+	));
 }
 
 function justin_power_password_reset($user_id){	

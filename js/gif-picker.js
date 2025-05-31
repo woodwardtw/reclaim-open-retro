@@ -20,7 +20,9 @@ confirm.addEventListener("click", () => {
  });
 
 function attachChosenGif(chosenGif){
-	const destination = document.querySelector("#field_1_14");//FLIP _2_14 & _1_14
+	const formId = document.querySelector(".gform_wrapper form").dataset.formid	
+	const field = `#field_${formId}_14`;
+	const destination = document.querySelector(field);//FLIP _2_14 & _1_14
 	const img = document.createElement("img");
 	img.src = chosenGif.src;
 	img.classList.add("chosen-gif");
@@ -40,7 +42,7 @@ fetch('../wp-json/wp/v2/media?mime_type=image/gif&per_page=100')
             return response.json();
         })
         .then(function (data) {
-            //console.log(data);
+            console.log(data);
             makeGif(data)
             imageClicker()
         })
@@ -52,20 +54,28 @@ fetch('../wp-json/wp/v2/media?mime_type=image/gif&per_page=100')
 function makeGif(data){
 	const destination = document.querySelector("#gif-library");
 	data.forEach(function(gif){
-		const img = document.createElement("img");
-		img.src = gif.guid.rendered;
-		img.classList.add('gif')
-		destination.appendChild(img);		
+		if(gif.caption.rendered === ""){
+			const img = document.createElement("img");
+			img.src = gif.guid.rendered;
+			img.classList.add('gif');
+			img.dataset.id = gif.id;
+			destination.appendChild(img);	
+		}			
 	})
 }
 
 
 function imageClicker(){
-	const allImages = document.querySelectorAll(".gif");
-	const destination = document.querySelector("#input_1_10"); //change between _2_10 & _1_10 for prod
+	const formId = document.querySelector(".gform_wrapper form").dataset.formid	
+	const urlField = `#input_${formId}_10`;
+	const imageIdField = `#input_${formId}_16`;
+	const allImages = document.querySelectorAll(".gif");	
+	const urlDestination = document.querySelector(urlField); //change between _2_10 & _1_10 for prod
+	const imageIdDestination = document.querySelector(imageIdField); //change 
 	allImages.forEach(function(gif){
 		gif.addEventListener('click', () => {		  
-		    destination.value = gif.src;
+		    urlDestination.value = gif.src;//value to url
+		    imageIdDestination.value = gif.dataset.id;//value to image ID
 		    cleanSelected(allImages);
 		    gif.classList.toggle('selected');
 		  });
