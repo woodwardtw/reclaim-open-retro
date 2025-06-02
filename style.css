@@ -1016,6 +1016,22 @@ article.post {
 	padding-left: 0;
 }
 
+/*GIF PICKER*/
+#gif-dialog {
+	margin: 5vh 10vw;
+	border: 15px solid red;
+}
+
+.dialog-directions{
+	position: fixed;
+	top: 14px;
+	font-size: 2rem;
+	background-color: #fff;
+	left: 50%;
+  	transform: translateX(-50%);
+  	display: block;
+}
+
 .gif {
 	transition: all .5s ease;
 	border: 2px solid #fff;
@@ -1023,11 +1039,38 @@ article.post {
 
 .gif:hover {
 	cursor: pointer;
-	border: 2px solid lime;
+	border: 8px solid lime;
+	transform: scale(1.1);
 }
 
 .gif.selected {
-	border: 2px solid lime;
+	border: 8px solid lime;
+}
+
+#confirm {
+	position: fixed;
+	bottom: 14px;
+	left: 50%;
+  	transform: translateX(-50%);
+  	font-size: 2rem;	
+  	padding: 10px;
+}
+
+#confirm:hover {
+	cursor: pointer;
+	animation: pulse-border 1.5s infinite;
+}
+
+@keyframes pulse-border {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 64, 129, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 64, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 64, 129, 0);
+  }
 }
 
 /* tablet breakpoint */
