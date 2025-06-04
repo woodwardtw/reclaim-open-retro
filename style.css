@@ -539,6 +539,12 @@ figure {
 table {
 	margin: 0 0 1.5em;
 	width: 100%;
+	border: 1px solid #000;	
+}
+
+td {
+	border: 1px solid #000;
+	padding: 0 5px;
 }
 
 /* Links
@@ -890,6 +896,7 @@ textarea {
 .gallery-caption {
 	display: block;
 }
+
 
 /*--------------------------------------------------------------
 # Plugins
