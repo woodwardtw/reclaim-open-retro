@@ -1090,6 +1090,19 @@ article.post {
 	animation: pulse-border 2.5s infinite;
 }
 
+
+.static-chat-container{
+	margin: 40px 0
+}
+
+.message-block{
+	padding: 5px 10px;
+}
+
+.message-block:nth-child(odd) {
+	background-color: #efefef;
+}	
+
 @keyframes pulse-border {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);

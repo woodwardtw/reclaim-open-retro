@@ -411,3 +411,55 @@ BY DEFAULT ACF HIDES THE CUSTOM FIELDS - I LIKE TO SEE THEM
 //ACF allow us to see custom fields in editor view
 add_filter( 'acf/settings/remove_wp_meta_box', '__return_false' );
 
+function reclaim_live_chat(){
+	//LIVE CHAT
+	global $post;
+	$post_id = $post->ID;
+	$live_chat = get_field('live_chat', $post_id);
+	if($live_chat === TRUE){
+		echo do_shortcode("[sacpro form_id='{$post_id}']");
+	}
+}
+
+function reclaim_static_chat() {
+    global $wpdb, $post;
+    
+    $post_id = $post->ID;
+    $live_chat = get_field('live_chat', $post_id);
+    
+    if($live_chat === FALSE){
+        $blog_id = get_current_blog_id();
+        $prefix = $wpdb->get_blog_prefix($blog_id);
+        $table_name = "{$prefix}sacpro_{$post_id}";
+        
+        $results = $wpdb->get_results("SELECT * FROM {$table_name}");
+        
+        if (!empty($results)) {
+            $previous_user = null;
+            $block = '';
+            echo '<div class="static-chat-container"><h3>Comments Archive</h3>';
+            foreach ($results as $row) {
+                $user_name = $row->user_name;
+                $text = $row->text;
+                
+                // If new user, close previous block and start new one
+                if ($previous_user !== $user_name) {
+                    if ($previous_user !== null) {
+                        echo '</div>'; // Close previous message-block
+                    }
+                    echo '<div class="message-block">';
+                }
+                
+                echo "<div class='message'><strong>{$user_name}:</strong> {$text}</div>";
+                
+                $previous_user = $user_name;
+            }
+            
+            // Close final message-block
+            if ($previous_user !== null) {
+                echo '</div>';
+            }
+			echo '</div>'; // Close static-chat-container
+        }
+    }
+}
