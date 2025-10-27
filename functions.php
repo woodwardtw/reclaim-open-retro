@@ -387,6 +387,39 @@ function justin_remove_admin_bar() {
 	}
 
 
+/**
+ * Include 'session' post type in category/tag/home archives so sessions assigned to categories appear
+ * in the main front-end archive listings alongside regular posts.
+ */
+function reclaim_include_sessions_in_archives( $query ) {
+	// Only affect front-end main queries
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+
+	// Target category and tag archive pages and the blog home (posts index)
+	if ( $query->is_category() || $query->is_tag() || $query->is_home() ) {
+		$post_types = $query->get( 'post_type' );
+
+		if ( empty( $post_types ) ) {
+			// Default to posts + sessions
+			$post_types = array( 'post', 'session' );
+		} else {
+			if ( is_string( $post_types ) ) {
+				$post_types = array( $post_types );
+			}
+
+			if ( is_array( $post_types ) && ! in_array( 'session', $post_types, true ) ) {
+				$post_types[] = 'session';
+			}
+		}
+
+		$query->set( 'post_type', $post_types );
+	}
+}
+add_action( 'pre_get_posts', 'reclaim_include_sessions_in_archives' );
+
+
 //redirect authors
 function justin_login_redirect( $redirect_to, $request, $user ) {
     //is there a user to check?
