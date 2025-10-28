@@ -1103,6 +1103,15 @@ article.post {
 	background-color: #efefef;
 }	
 
+
+.session-authors {
+	font-size: .9rem;
+	font-weight: 600;
+	margin: 10px 0;	
+	padding: 20px;
+	border: 1px solid #ccc;
+}
+
 @keyframes pulse-border {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);

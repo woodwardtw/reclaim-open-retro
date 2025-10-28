@@ -512,3 +512,18 @@ function reclaim_static_chat() {
         }
     }
 }
+
+//session acf author display
+function reclaim_open_session_author() {
+	$author_name = get_the_author_meta('display_name');
+	$additional_authors = get_field('additional_authors');
+	if ( $author_name ) {
+		echo "<div class='session-authors'>
+			<h2>Session Author(s):</h2>
+			<p class='session-author'> {$author_name} </p>
+			<p class='session-additional-authors'>{$additional_authors}</p>
+			</div>
+		";
+
+	}
+}

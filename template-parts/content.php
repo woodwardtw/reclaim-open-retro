@@ -49,6 +49,8 @@
 			)
 		);
 
+		reclaim_open_session_author();
+
 		//reclaim_open_retro_v_justin_posted_by();
 
 		wp_link_pages(
