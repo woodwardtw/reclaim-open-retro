@@ -13,6 +13,6 @@ if ( ! is_active_sidebar( 'sidebar-1' ) ) {
 ?>
 
 <aside id="secondary" class="widget-area">
-	<?php reclaim_live_chat();?>
+	<?php reclaim_live_chat( isset( $GLOBALS['reclaim_live_chat_post_id'] ) ? $GLOBALS['reclaim_live_chat_post_id'] : null );?>
 	<?php dynamic_sidebar( 'sidebar-1' ); ?>
 </aside><!-- #secondary -->

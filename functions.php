@@ -444,15 +444,31 @@ BY DEFAULT ACF HIDES THE CUSTOM FIELDS - I LIKE TO SEE THEM
 //ACF allow us to see custom fields in editor view
 add_filter( 'acf/settings/remove_wp_meta_box', '__return_false' );
 
-function reclaim_live_chat(){
-	//LIVE CHAT
-	global $post;
-	$post_id = $post->ID;
-	$live_chat = get_field('live_chat', $post_id);
-	if($live_chat === TRUE){
-		echo do_shortcode("[sacpro form_id='{$post_id}']");
+
+// Live Chat function — accepts an optional post ID (falls back to global $post or saved global)
+function reclaim_live_chat( $post_id = null ){
+	// Resolve post ID: explicit param > global $post > saved global variable
+	if ( empty( $post_id ) ) {
+		if ( isset( $GLOBALS['reclaim_live_chat_post_id'] ) && $GLOBALS['reclaim_live_chat_post_id'] ) {
+			$post_id = $GLOBALS['reclaim_live_chat_post_id'];
+		} else {
+			global $post;
+			if ( isset( $post->ID ) ) {
+				$post_id = $post->ID;
+			}
+		}
+	}
+
+	if ( empty( $post_id ) ) {
+		return;
+	}
+
+	$live_chat = get_field( 'live_chat', $post_id );
+	if ( $live_chat === true || $live_chat === '1' ) {
+		echo do_shortcode( "[sacpro form_id='{$post_id}']" );
 	}
 }
+
 
 function reclaim_static_chat() {
     global $wpdb, $post;
