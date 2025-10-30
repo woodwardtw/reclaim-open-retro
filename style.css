@@ -1104,12 +1104,19 @@ article.post {
 }	
 
 
-.session-authors {
+.session-details {
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+.session-authors, .session-resources {
 	font-size: .9rem;
 	font-weight: 600;
 	margin: 10px 0;	
 	padding: 20px;
 	border: 1px solid #ccc;
+	flex: 1;
 }
 
 @keyframes pulse-border {

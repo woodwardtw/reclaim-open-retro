@@ -48,9 +48,10 @@
 				wp_kses_post( get_the_title() )
 			)
 		);
-
+		echo '<div class="session-details">';
 		reclaim_open_session_author();
-
+		reclaim_open_session_resources();
+		echo '</div>';
 		//reclaim_open_retro_v_justin_posted_by();
 
 		wp_link_pages(

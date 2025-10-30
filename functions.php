@@ -527,3 +527,15 @@ function reclaim_open_session_author() {
 
 	}
 }
+
+function reclaim_open_session_resources() {
+	$resources = get_field('resource_links');
+	if ( $resources ) {
+		echo "<div class='session-resources'>
+			<h2>Session Resources:</h2>
+			<div class='session-resource-links'> {$resources}
+			</div>
+		";
+
+	}
+}
